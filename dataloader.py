@@ -71,14 +71,24 @@ def get_dataloader(args):
                              ])),
             batch_size=args.batch_size, shuffle=True, num_workers=2)
 
+    else:
+        raise ValueError(f"Unknown dataset name: {args.dataset}.")
+
     return train_loader, test_loader
 
 
 class Namespace:
-    def __init__(self):
-        self.dataset = "svhn"
-        self.data_root = "~/.datasets/SVHN"
-        self.batch_size = 256
+    def __init__(self, dataset="svhn", batch_size=256):
+        dataset = dataset.lower()
+        self.dataset = dataset
+        self.data_root = None
+
+        if dataset == "svhn":
+            self.data_root = "~/.datasets/SVHN"
+        elif dataset == "cifar10":
+            self.data_root = "~/.datasets"
+
+        self.batch_size = batch_size
 
 
 def main():

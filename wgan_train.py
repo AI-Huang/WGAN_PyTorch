@@ -11,7 +11,7 @@ import torch
 from torch.autograd import Variable
 from torchvision.utils import save_image
 
-from wgan import Generator, Discriminator
+from gan.wgan import Generator, Discriminator
 from dataloader import get_dataloader
 
 
@@ -89,6 +89,7 @@ def train(dataloader, discriminator, generator, optimizer_D, optimizer_G, use_cu
 
             # Generate a batch of images
             fake_imgs = generator(z).detach()
+
             # Adversarial loss
             loss_D = -torch.mean(discriminator(real_imgs)) + \
                 torch.mean(discriminator(fake_imgs))
